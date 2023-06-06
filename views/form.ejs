@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<style>
+</style>
+<body>
+
+    <h1 style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Movie Project</h1>
+    <form method="post" action="/insertData" enctype="multipart/form-data">
+        <input type="hidden" name="editid" value="<%= single.id %>"/>
+        <table class="table" style="width: 40%;">
+            <tr>
+                <th>Movie Name :-</th>
+                <td><input type="text" value="<%= single.mname %>" name="mname"  ></td>
+            </tr>
+            <tr>
+                <th>Director Name :-</th>
+                <td><input type="text"  value="<%= single.dname %>" name="dname" ></td>
+            </tr>
+            <tr>
+                <th>Writer Name :-</th>
+                <td><input type="text"  value="<%= single.wname %>" name="wname" ></td>
+            </tr>
+            <tr>
+                <th>Actors :-</th>
+                <td><input type="text"  value="<%= single.aname %>" name="aname" ></td>
+            </tr>
+            <tr>
+                <th>Language :-</th>
+                <td>
+                    <input type="checkbox" <% if(single.lang) { if(single.lang.includes('hindi')) { %> checked <% } } %>  value="hindi" name="lang">hindi
+                    <input type="checkbox" <% if(single.lang) { if(single.lang.includes('english')) { %> checked <% } } %>  value="english" name="lang">English
+                    <input type="checkbox" <% if(single.lang) { if(single.lang.includes('gujarati')) { %> checked <% } } %>  value="gujarati" name="lang">Gujarati
+    
+                </td>
+            </tr>
+            <tr>
+                <th>Country :-</th>
+                <td>
+                    <select name="country">
+                        <option value="">---select country---</option>
+    
+                        <%
+                            let country = ["India","America","Russia","China","Switzerland","London","Germany","Austrelia"]; 
+                            for(let i in country) {
+                        %>
+                            <option <% if(single.country == country[i]) { %> selected <% } %> value="<%= country[i] %>"><%= country[i] %></option>
+                        <% } %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Type :-</th>
+                <td>
+                    <select name="type">
+                        <option value="">---select type---</option>
+    
+                        <%
+                            let type = ["Action","Drama","Thriller","Comedy"]; 
+                            for(let i in type) {
+                        %>
+                            <option <% if(single.type == type[i]) { %> selected <% } %> value="<%= type[i] %>"><%= type[i] %></option>
+                        <% } %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Movie Image</th>
+                <td>
+                    <input type="file" name="john">
+                    <% if(single) { %>
+                            <img src="<%= single.john %>" width="100"/>
+                    <% } %>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td> 
+                    <% if(!single) { %>
+                        <input type="submit">
+                    <% } else { %>
+                        <input type="submit" value="Edit">
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+    </form><br><br>
+    
+    
+    
+    <table class="table table-light table-hover ">
+        <tr>
+            <th>No.</th>
+            <th>Movie Name</th>
+            <th>Director</th>
+            <th>Writer</th>
+            <th>Cast</th>
+            <th>Language</th>
+            <th>Country</th>
+            <th>Type</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+    
+        <% user.map((val,i)=>{ 
+                const {id,mname,dname,wname,aname,lang,country,type,john} = val;
+                i++;
+            %>
+            <tr>
+                <th><%= i %></th>
+                <td><%= mname %></td>
+                <td><%= dname %></td>
+                <td><%= wname %></td>
+                <td><%= aname %></td>
+                <td><%= lang %></td>
+                <td><%= country %></td>
+                <td><%= type %></td>
+                <td>
+                    <img src="<%= john  %>" style="width: 100px;  border-radius: 10px; "/>
+                </td>
+                <td>
+                    <a href="/deleteData?id=<%= id %>">Delete</a> ||
+                    <a href="/editData?id=<%= id %>">Edit</a>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
